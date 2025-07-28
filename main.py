@@ -13,6 +13,8 @@ def main():
     print(f"Screen height: {SCREEN_HEIGHT}")
     clock = pygame.time.Clock()
     dt = 0
+    score = 0
+    font = pygame.font.Font(None,36)
     
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     all_shots = pygame.sprite.Group()
@@ -39,19 +41,13 @@ def main():
             for a_shot in all_shots:
                 if asteroid.collision_check(a_shot):
                     a_shot.kill()
-                    # asteroid.kill()
                     asteroid.split()
-                    # if asteroid.radius > ASTEROID_MIN_RADIUS:
-                    #     new_asteroid_angle = random.uniform(20,50)
-                    #     new_vector_1 = asteroid.velocity.rotate(-new_asteroid_angle)
-                    #     new_vector_2 = asteroid.velocity.rotate(new_asteroid_angle)
-                    #     new_radius = asteroid.radius - ASTEROID_MIN_RADIUS
-                    #     new_asteroid_1 = Asteroid(*asteroid.position,new_radius)
-                    #     new_asteroid_2 = Asteroid(*asteroid.position,new_radius)
-                    #     new_asteroid_1.velocity = new_vector_1*1.2
-                    #     new_asteroid_2.velocity = new_vector_2*1.2
+                    score+=100
+                    break
         for drawable in drawables:
             drawable.draw(screen)
+        score_text = font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(score_text, (10, 10))
         pygame.display.flip()
         dt = clock.tick(60)/1000
 
